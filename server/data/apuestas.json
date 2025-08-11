@@ -1,0 +1,82 @@
+[
+  {
+    "nombre": "Kevin Quintero",
+    "dni": "41608311",
+    "pais": "Argentina",
+    "posicion": 1,
+    "monto": 200,
+    "fechaEnvio": "10/08/2025 - 12:52hs"
+  },
+  {
+    "nombre": "Facundo Gonzales",
+    "dni": "34619812",
+    "pais": "Argentina",
+    "posicion": 2,
+    "monto": 200,
+    "fechaEnvio": "10/08/2025 - 13:22hs"
+  },
+  {
+    "nombre": "Laura Martinez",
+    "dni": "32765498",
+    "pais": "Brasil",
+    "posicion": 3,
+    "monto": 150,
+    "fechaEnvio": "10/08/2025 - 14:05hs"
+  },
+  {
+    "nombre": "Juan Perez",
+    "dni": "23198745",
+    "pais": "Chile",
+    "posicion": 4,
+    "monto": 100,
+    "fechaEnvio": "10/08/2025 - 14:30hs"
+  },
+  {
+    "nombre": "Sofía Guirao",
+    "dni": "56789432",
+    "pais": "Uruguay",
+    "posicion": 5,
+    "monto": 180,
+    "fechaEnvio": "10/08/2025 - 15:00hs"
+  },
+  {
+    "nombre": "Martín Rodriguez",
+    "dni": "12345678",
+    "pais": "Paraguay",
+    "posicion": 4,
+    "monto": 220,
+    "fechaEnvio": "10/08/2025 - 15:20hs"
+  },
+  {
+    "nombre": "Ana Lima",
+    "dni": "87654321",
+    "pais": "Perú",
+    "posicion": 2,
+    "monto": 170,
+    "fechaEnvio": "10/08/2025 - 15:45hs"
+  },
+  {
+    "nombre": "Carlos Tarasco",
+    "dni": "34561278",
+    "pais": "Ecuador",
+    "posicion": 3,
+    "monto": 130,
+    "fechaEnvio": "10/08/2025 - 16:10hs"
+  },
+  {
+    "nombre": "Lucas Gutiérrez ",
+    "dni": "30612987",
+    "pais": "Brasil ",
+    "posicion": 1,
+    "monto": 300,
+    "fechaEnvio": "10/08/2025 - 17:18hs"
+  },
+  {
+    "nombre": "Luis Vargas",
+    "dni": "26498312",
+    "pais": "Alemania ",
+    "posicion": 3,
+    "monto": 16458464646,
+    "fechaEnvio": "10/08/2025 - 20:27hs"
+  }
+]
