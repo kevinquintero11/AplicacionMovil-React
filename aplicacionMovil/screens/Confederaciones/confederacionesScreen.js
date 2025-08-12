@@ -27,7 +27,6 @@ export default function ConfederacionesScreen() {
     setConfederaciones(prev => {
       const newConfeds = { ...prev };
       const equipos = [...newConfeds[confedName]];
-    //  console.log(equipos);
       const newIndex = direction === 'up' ? index - 1 : index + 1;
       
       if (newIndex < 0 || newIndex >= equipos.length) return prev;
@@ -56,7 +55,6 @@ export default function ConfederacionesScreen() {
         return res.json();
       })
       .then(data => {
-        //console.log('Clasificados enviados correctamente:', data);
         Alert.alert('Éxito', 'Los clasificados se guardaron correctamente.');
         confederacionesGuardadas(); // Indica que las confederaciones han sido guardadas
       })

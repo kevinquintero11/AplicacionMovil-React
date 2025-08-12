@@ -19,17 +19,19 @@ const router = express.Router();
 
 const equiposController = require("../controllers/equiposController");
 
-// Ruta para obtener todos los equipos clasificados
+// Ruta para obtener todos los equipos clasificados a la fase de grupos
 router.get("/clasificados", equiposController.getEquiposClasificados);
 
 // Ruta para obtener todas confederaciones
 router.get("/confederaciones", equiposController.getConfederaciones);
 
-// TODO: Ruta para agregar un nuevo equipo
+// Ruta para agregar equipos clasificados a la fase de grupos
 router.post("/clasificados", equiposController.addClasificados);
 
+// Ruta para agregar equipos clasificados a la fase final
 router.post("/clasificadosFaseFinal", equiposController.addClasificadosFaseFinal);
 
+// Ruta para obtener equipos clasificados a la fase final
 router.get("/clasificadosFaseFinal", equiposController.getEquiposClasificadosFaseFinal);
 
 module.exports = router;

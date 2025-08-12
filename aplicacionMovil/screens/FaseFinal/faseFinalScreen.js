@@ -8,6 +8,8 @@ import ViewSticky from '../../components/ViewSticky/viewSticky';
 import { API_BASE_URL } from '../../constants/constants';
 import PantallaCarga from '../../components/Texto/PantallaCarga';
 
+import { obtenerClasificadosFaseFinal } from '../../Services/services';
+
 let SIMULADA = false; // Cambiar a true para usar datos simulados
 let PRIMER_INGRESO = true; // Cambiar a false para simular la fase de grupos
 let fasesPrevias = [];
@@ -21,38 +23,34 @@ export default function FaseFinalScreen() {
   const [faseActual, setFaseActual] = useState(0);
   const [faseInicial, setFaseInicial] = useState([]);
 
+  const nombresFases = [
+    "16avos de final", "Octavos de final", "Cuartos de final",
+    "Semifinal",  "Tercer puesto", "Final"
+  ];
+
   const volverASimular = () => {
     setFaseActual(0);
-    setFases([{ nombre: "16avos de final", partidos: faseInicial }]);
-  };
-
-  const cargarDatos = () => {
-    fetch(`${API_BASE_URL}/api/equipos/clasificadosFaseFinal`)
-      .then(res => res.json())
-      .then(equipos => {
-        const primeraFase = generarPartidos(equipos);
-        setFaseInicial(primeraFase);
-        setFases([{ nombre: "16avos de final", partidos: primeraFase }]);
-        PRIMER_INGRESO = false; // Cambiar a false después del primer ingreso
-      })
-      .catch(err => console.error("Error al obtener clasificados:", err));
+    setFases([{ nombre: nombresFases[0], partidos: faseInicial }]);
   };
 
   useFocusEffect(
     useCallback(() => {
       if (SIMULADA) {
-        cargarDatos();
-        SIMULADA = false; // Resetear el parámetro
-        setFaseActual(0);
-        setFases([]);
-      }      
+        obtenerClasificadosFaseFinal()
+          .then(equipos => {
+            const primeraFase = generarPartidos(equipos);
+            setFaseInicial(primeraFase);
+            setFaseActual(0);
+            setFases([{ nombre: nombresFases[0], partidos: primeraFase }]);
+          })
+          .catch(err => console.error('Error al obtener clasificados:', err))
+          .finally(() => {
+            SIMULADA = false;
+            PRIMER_INGRESO = false;
+          });
+      }
     }, [])
   );
-
-  const nombresFases = [
-    "16avos de final", "Octavos de final", "Cuartos de final",
-    "Semifinal",  "Tercer puesto", "Final"
-  ];
 
   const simularSiguienteFase = () => {
     fasesPrevias = [...fases];
@@ -71,8 +69,8 @@ export default function FaseFinalScreen() {
         const perdedores = partidosSimulados.map(p =>
             p.goles1 > p.goles2 ? p.equipo2 : p.equipo1
         );
-        fasesPrevias.push({ nombre: "Tercer puesto", partidos: generarPartidos(perdedores) });
-        fasesPrevias.push({ nombre: "Final", partidos: final });
+        fasesPrevias.push({ nombre: nombresFases[faseActual + 1], partidos: generarPartidos(perdedores) });
+        fasesPrevias.push({ nombre: nombresFases[faseActual + 2], partidos: final });
     } else if (ganadores.length === 1) {
 
         // Solo mostrar el alert si la fase actual es la final

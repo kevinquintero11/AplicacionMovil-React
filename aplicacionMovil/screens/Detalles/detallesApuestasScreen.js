@@ -8,10 +8,10 @@ export default function DetallesApuestasScreen() {
   const [apuestas, setApuestas] = useState([]);
 
   useEffect(() => {
-  obtenerApuestas()
-    .then(data => setApuestas(data))
-    .catch(error => console.error(error));
-}, []);
+    obtenerApuestas()
+      .then(data => setApuestas(data))
+      .catch(error => console.error(error));
+  }, []);
 
   const renderItem = ({ item }) => (
   <View style={styles.item}>
@@ -46,7 +46,6 @@ export default function DetallesApuestasScreen() {
     </View>
   </View>
 );
-
 
   return (
     <View style={styles.container}>
