@@ -6,7 +6,7 @@ export default function DetallesPaisScreen({ route }) {
   const { country } = route.params;
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <View style={styles.container}>
       <Text style={styles.title}>{country.name}</Text>
       <Image source={{ uri: country.flag }} style={styles.flag} />
       <ScrollView>
@@ -51,6 +51,6 @@ export default function DetallesPaisScreen({ route }) {
         </View>
         
       </ScrollView>
-    </ScrollView>
+    </View>
   );
 }

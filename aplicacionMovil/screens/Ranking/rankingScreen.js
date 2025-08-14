@@ -26,6 +26,7 @@ export default function RankingScreen() {
     setCargando(true);
     try {
       const result = await obtenerRankingPaginado(page, PAGE_SIZE);
+      //console.log('Datos obtenidos:', result);
 
       if (result.length > 0) {
         setData(previous => {
@@ -69,7 +70,7 @@ export default function RankingScreen() {
         renderItem={renderItem}
         contentContainerStyle={styles.contentContainer}
         onEndReached={cargarMasDatos}
-        onEndReachedThreshold={0.3}
+        onEndReachedThreshold={0.7}
         ListFooterComponent={() =>
           cargando ? ( <ActivityIndicator size="small" color='#09ca43' />) : !hayMas ? ( <Text style={styles.loadingText}>No hay más paises</Text>) : null
         }
