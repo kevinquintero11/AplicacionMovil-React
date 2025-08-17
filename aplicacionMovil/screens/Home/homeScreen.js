@@ -1,5 +1,4 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image, ImageBackground } from 'react-native';
+import { View, Text, Image, ImageBackground } from 'react-native';
 import icon from '../../assets/images/fondoOficial.png'; 
 import styles from './homeScreenStyles'; 
 import fondo from '../../assets/images/estadio.png';

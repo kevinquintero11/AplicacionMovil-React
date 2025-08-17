@@ -78,5 +78,13 @@
     "posicion": 3,
     "monto": 16458464646,
     "fechaEnvio": "10/08/2025 - 20:27hs"
+  },
+  {
+    "nombre": "Gustavo Diaz ",
+    "dni": "18564978",
+    "pais": "Brasil",
+    "posicion": 2,
+    "monto": 1000,
+    "fechaEnvio": "16/08/2025 - 20:36hs"
   }
 ]

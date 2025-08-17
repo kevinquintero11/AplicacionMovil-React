@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { View, Text, TextInput, Alert, ImageBackground } from 'react-native';
 import styles from './apuestasScreenStyles'; // Importación de estilos
-import { API_BASE_URL } from '../../constants/constants';
 import AdaptableButton from '../../components/Boton/Button';
 import fondo from '../../assets/images/fondo2.jpg'
+import { enviarApuesta } from '../../Services/services.apuestas';
+import obtenerFechaFormateada from '../../utils/fechaFormateada';
 
 const placeholderTextColor = "#b8b8b8ff";
 
@@ -14,22 +15,7 @@ export default function ApuestasScreen({ navigation }) {
   const [posicion, setPosicion] = useState('');
   const [monto, setMonto] = useState('');
 
-  const obtenerFechaFormateada = () => {
-    const now = new Date();
-
-    const pad = (n) => n.toString().padStart(2, '0');
-
-    const hora = pad(now.getHours());
-    const minutos = pad(now.getMinutes());
-    const dia = pad(now.getDate());
-    const mes = pad(now.getMonth() + 1); 
-    const anio = now.getFullYear();
-
-    return `${dia}/${mes}/${anio} - ${hora}:${minutos}hs`;
-  };
-
-
-  const enviarApuesta = () => {
+  const guardarApuesta = async () => {
     if (!nombre || !dni || !pais || !posicion || !monto) {
       Alert.alert('Error', 'Por favor, complete todos los campos');
       return;
@@ -37,40 +23,27 @@ export default function ApuestasScreen({ navigation }) {
 
     const fechaEnvio = obtenerFechaFormateada();
 
-    fetch(`${API_BASE_URL}/api/apuestas/enviarApuesta`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
+    try {
+      await enviarApuesta({
         nombre,
         dni,
         pais,
         posicion: parseInt(posicion, 10),
         monto: parseFloat(monto),
-        fechaEnvio: fechaEnvio
-      }),
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Error en el servidor');
-        }
-        return response.json();
-      })
-      .then(data => {
-        Alert.alert('Éxito', 'Apuesta guardada correctamente');
-      })
-      .catch(error => {
-        console.error('Error al guardar la apuesta:', error);
-        Alert.alert('Error', 'No se pudo guardar la apuesta');
-      }).finally(() => {
-        setNombre(''); 
-        setDni('');
-        setPais('');
-        setPosicion('');
-        setMonto('');
-      }); 
-    } 
+        fechaEnvio,
+      });
+
+      Alert.alert('Éxito', 'Apuesta guardada correctamente');
+      setNombre('');
+      setDni('');
+      setPais('');
+      setPosicion('');
+      setMonto('');
+    } catch (error) {
+      console.error('Error al guardar la apuesta:', error);
+      Alert.alert('Error', 'No se pudo guardar la apuesta');
+    }
+  };
 
   return (
     
@@ -126,7 +99,7 @@ export default function ApuestasScreen({ navigation }) {
         <AdaptableButton
           texto="Enviar Apuesta"
           icono="paper-plane"
-          onPress={enviarApuesta} 
+          onPress={guardarApuesta} 
           styleButton={styles.customButton}
         />
 

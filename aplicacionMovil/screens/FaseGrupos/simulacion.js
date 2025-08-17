@@ -1,3 +1,7 @@
+import { enviarClasificadosFaseFinal } from '../../Services/services.faseGrupos';
+import { faseGruposSimulada } from '../FaseFinal/faseFinalScreen';
+import { Alert } from 'react-native';
+
 export const sortearEquipos = (array) => {
   const arr = [...array];
   for (let i = arr.length - 1; i > 0; i--) {
@@ -69,7 +73,7 @@ export const simularResultados = (equipos) => {
   });
 };
 
-export const simularGrupos = async (grupos, setGrupos, faseGruposSimulada, API_BASE_URL) => {
+export const simularGrupos = async (grupos, setGrupos) => {
   if (Object.keys(grupos).length === 0) {
     throw new Error("Primero se deben generar los grupos.");
   }
@@ -94,18 +98,20 @@ export const simularGrupos = async (grupos, setGrupos, faseGruposSimulada, API_B
 
   setGrupos(nuevosGrupos);
 
-  // Enviar a la API
-  const response = await fetch(`${API_BASE_URL}/api/equipos/clasificadosFaseFinal`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ equipos: nuevosClasificados }),
-  });
-
-  if (!response.ok) throw new Error('Error al enviar los clasificados a fase final');
-
-  const data = await response.json();
+  // Enviar los equipos clasificados a la fase final al servidor
+  const data = await enviarClasificadosFaseFinal(nuevosClasificados);
 
   faseGruposSimulada();
 
   return data;
+};
+
+export const handleSimularGrupos = async (grupos, setGrupos) => {
+  try {
+    
+    await simularGrupos(grupos, setGrupos);
+    Alert.alert("Éxito", "Los clasificados a la fase final fueron enviados correctamente.");
+  } catch (error) {
+    Alert.alert("Error", error.message);
+  }
 };

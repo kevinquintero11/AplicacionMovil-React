@@ -1,6 +1,6 @@
-import React from 'react';
 import { View, Text, StyleSheet, Image, ScrollView } from 'react-native';
 import styles from './detallesPaisScreenStyles';
+import InfoBox from '../../components/InfoBox/InfoBox';
 
 export default function DetallesPaisScreen({ route }) {
   const { country } = route.params;
@@ -11,45 +11,15 @@ export default function DetallesPaisScreen({ route }) {
       <Image source={{ uri: country.flag }} style={styles.flag} />
       <ScrollView>
 
-        <View style={styles.infoBox}>
-          <Text style={styles.label}>🏆 Rank:</Text>
-          <Text style={styles.value}>{country.rank}</Text>
-        </View>
+        <InfoBox label="🏆 Rank:" value={country.rank} />
+        <InfoBox label="🎯 Puntos:" value={country.points.toFixed(2)} />
+        <InfoBox label="📊 Puntos previos:" value={country.previous_points.toFixed(2)} />
+        <InfoBox label="🌍 Confederación:" value={country.confederation} />
+        <InfoBox label="👥 Habitantes:" value={country.habitantes.toLocaleString()} />
+        <InfoBox label="🏙 Capital:" value={country.capital} />
+        <InfoBox label="🥇 Títulos oficiales:" value={country.titulos_oficiales} />
+        <InfoBox label="📖 Descripción:" value={country.descripcion} isDescription />
 
-        <View style={styles.infoBox}>
-          <Text style={styles.label}>🎯 Puntos:</Text>
-          <Text style={styles.value}>{country.points.toFixed(2)}</Text>
-        </View>
-
-        <View style={styles.infoBox}>
-          <Text style={styles.label}>📊 Puntos previos:</Text>
-          <Text style={styles.value}>{country.previous_points.toFixed(2)}</Text>
-        </View>
-        <View style={styles.infoBox}>
-          <Text style={styles.label}>🌍 Confederación:</Text>
-          <Text style={styles.value}>{country.confederation}</Text>
-        </View>
-
-        <View style={styles.infoBox}>
-          <Text style={styles.label}>👥 Habitantes:</Text>
-          <Text style={styles.value}>{country.habitantes.toLocaleString()}</Text>
-        </View>
-
-        <View style={styles.infoBox}>
-          <Text style={styles.label}>🏙 Capital:</Text>
-          <Text style={styles.value}>{country.capital}</Text>
-        </View>
-        
-        <View style={styles.infoBox}>
-          <Text style={styles.label}>🥇 Títulos oficiales:</Text>
-          <Text style={styles.value}>{country.titulos_oficiales}</Text>
-        </View>
-
-        <View style={styles.infoBoxDescripcion}>
-          <Text style={styles.label}>📖 Descripción:</Text>
-          <Text style={styles.valueDescription}>{country.descripcion}</Text>
-        </View>
-        
       </ScrollView>
     </View>
   );

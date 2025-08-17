@@ -1,17 +1,15 @@
-import React, { useState, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { useFocusEffect} from '@react-navigation/native';
 import { View, Text, ScrollView, Image, Alert } from 'react-native';
-import { API_BASE_URL } from '../../constants/constants';
 import styles from './faseGrupoScreenStyles';
 
 import AdaptableButton from '../../components/Boton/Button';
 import ViewSticky from '../../components/ViewSticky/viewSticky';
 import PantallaCarga from '../../components/Texto/PantallaCarga';
 
-import {faseGruposSimulada} from '../FaseFinal/faseFinalScreen';
-import { obtenerEquiposClasificados } from '../../Services/services';
 
-import { sortearEquipos, generarGrupos, simularGrupos } from './simulacion';
+import { obtenerEquiposClasificados } from '../../Services/services.faseGrupos';
+import { sortearEquipos, generarGrupos, handleSimularGrupos } from './simulacion';
 
 let PRIMER_INGRESO = true; 
 let confederacionesCargadas = false; 
@@ -40,15 +38,6 @@ export default function FaseGruposScreen() {
       }
     }, [])
   );
-
-  const handleSimularGrupos = async () => {
-    try {
-      await simularGrupos(grupos, setGrupos, faseGruposSimulada, API_BASE_URL);
-      Alert.alert("Éxito", "Los clasificados a la fase final fueron enviados correctamente.");
-    } catch (error) {
-      Alert.alert("Error", error.message);
-    }
-  };
 
   if (loading) {
     return ( <PantallaCarga texto="Cargando fase de grupos" /> );
@@ -95,7 +84,7 @@ export default function FaseGruposScreen() {
         <AdaptableButton
           texto="Simular Grupos"
           icono="play"
-          onPress={handleSimularGrupos}
+          onPress={() => handleSimularGrupos(grupos, setGrupos)}
         />
       </ViewSticky>
     </View>

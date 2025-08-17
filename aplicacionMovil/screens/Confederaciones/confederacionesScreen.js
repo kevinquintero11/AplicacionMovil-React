@@ -1,16 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { View, Text, ScrollView, Image } from 'react-native';
-import { FontAwesome5 } from '@expo/vector-icons';
 import styles from './confederacionesScreenStyles';
-import { Alert } from 'react-native';
-import { API_BASE_URL } from '../../constants/constants';
 
 import AdaptableButton from '../../components/Boton/Button';
 import ViewSticky from '../../components/ViewSticky/viewSticky';
 import PantallaCarga from '../../components/Texto/PantallaCarga';
 
-import { confederacionesGuardadas } from '../FaseGrupos/faseGruposScreen';
-import { obtenerConfederaciones } from '../../Services/services';
+import { obtenerConfederaciones } from '../../Services/services.confederaciones';
+import { moveCountry, guardarClasificados } from './functions';
 
 export default function ConfederacionesScreen() {
   const [confederaciones, setConfederaciones] = useState(null);
@@ -21,53 +18,6 @@ export default function ConfederacionesScreen() {
       .then(data => setConfederaciones(data))
       .catch(err => setError(err.message));
   }, []);
-
-
-  const moveCountry = (confedName, index, direction) => {
-    setConfederaciones(prev => {
-      const newConfeds = { ...prev };
-      const equipos = [...newConfeds[confedName]];
-      const newIndex = direction === 'up' ? index - 1 : index + 1;
-      
-      if (newIndex < 0 || newIndex >= equipos.length) return prev;
-
-      [equipos[index], equipos[newIndex]] = [equipos[newIndex], equipos[index]]; // invierte los equipos
-      newConfeds[confedName] = equipos; // actualiza la confederación con el nuevo orden
-      return newConfeds;
-    });
-  };
-
-  const generarClasificados = () => {
-    if (!confederaciones) return;
-
-    const clasificados = {};
-    Object.entries(confederaciones).forEach(([confedName, equipos]) => {
-      clasificados[confedName] = equipos.slice(0, -2);
-    });
-
-    fetch(`${API_BASE_URL}/api/equipos/clasificados`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ equipos: clasificados }),
-    })
-      .then(res => {
-        if (!res.ok) throw new Error('Error al enviar los clasificados');
-        return res.json();
-      })
-      .then(data => {
-        Alert.alert('Éxito', 'Los clasificados se guardaron correctamente.');
-        confederacionesGuardadas(); // Indica que las confederaciones han sido guardadas
-      })
-      .catch(err => {
-        console.error('Error al enviar los clasificados:', err.message);
-      });
-  };
-
-  if (error) {
-    return (
-      <PantallaCarga texto={`Error: ${error}`} />
-    );
-  }
 
   if (!confederaciones) {
     return (
@@ -100,14 +50,14 @@ export default function ConfederacionesScreen() {
 
                     <AdaptableButton
                       texto={'↑'}
-                      onPress={() => moveCountry(confedName, idx, 'up'  )}
+                      onPress={() => moveCountry(confederaciones, setConfederaciones, confedName, idx, 'up' )}
                       styleButton={styles.button}
                       styleText={styles.buttonText}
                     />
 
                     <AdaptableButton
                       texto={'↓'}
-                      onPress={() => moveCountry(confedName, idx, 'down'  )}
+                      onPress={() => moveCountry(confederaciones, setConfederaciones, confedName, idx, 'down' )}
                       styleButton={styles.button}
                       styleText={styles.buttonText}
                     />
@@ -122,7 +72,7 @@ export default function ConfederacionesScreen() {
           <AdaptableButton
             texto="Guardar Clasificados"
             icono="save"
-            onPress={generarClasificados}
+            onPress={() => guardarClasificados(confederaciones, setConfederaciones)}
           />
         </ViewSticky>
       

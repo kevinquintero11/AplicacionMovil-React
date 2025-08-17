@@ -1,14 +1,14 @@
-import React, { useEffect, useState, useCallback  } from 'react';
-import { useFocusEffect, useRoute  } from '@react-navigation/native';
-import { View, Text, StyleSheet, ScrollView, Button, Image, TouchableOpacity, Alert } from 'react-native';
+import { useState, useCallback  } from 'react';
+import { useFocusEffect} from '@react-navigation/native';
+import { View, Text, ScrollView, Alert } from 'react-native';
 import { generarPartidos, simularPartidos, obtenerGanadores } from './simulador';
 import styles from './faseFinalScreenStyles';
 import AdaptableButton from '../../components/Boton/Button';
 import ViewSticky from '../../components/ViewSticky/viewSticky';
-import { API_BASE_URL } from '../../constants/constants';
 import PantallaCarga from '../../components/Texto/PantallaCarga';
+import EquipoDisplay from '../../components/EquipoDisplay/EquipoDisplay';
 
-import { obtenerClasificadosFaseFinal } from '../../Services/services';
+import { obtenerClasificadosFaseFinal } from '../../Services/services.faseFinal';
 
 let SIMULADA = false; // Cambiar a true para usar datos simulados
 let PRIMER_INGRESO = true; // Cambiar a false para simular la fase de grupos
@@ -142,30 +142,5 @@ export default function FaseFinalScreen() {
     )
   );
 }
-
-const EquipoDisplay = ({ equipo, goles, pos, esGanador }) => {
-    const nombreCorto = equipo.name ? equipo.name.substring(0, 3).toUpperCase() : '';
-    const nombreStyle = [
-        styles.nombre,
-        esGanador === true ? styles.nombreGanador : esGanador === false ? styles.nombrePerdedor : null
-    ];
-    if (pos === 1) {
-        return (
-            <View style={styles.equipo}>
-              <Text style={nombreStyle}>{nombreCorto}</Text>
-              <Image source={{ uri: equipo.flag }} style={styles.bandera} />
-              <Text style={styles.goles}>{goles !== null ? goles : ""}</Text>
-            </View>
-        );
-    } else {
-        return (
-            <View style={styles.equipo}>
-              <Text style={styles.goles}>{goles !== null ? goles : ""}</Text>
-              <Image source={{ uri: equipo.flag }} style={styles.bandera} />
-              <Text style={nombreStyle}>{nombreCorto}</Text>
-            </View>
-        );
-    }
-};
 
 

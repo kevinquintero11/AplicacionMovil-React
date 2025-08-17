@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { View, Text, FlatList } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import styles from './detallesApuestasScreenStyles';
-import { obtenerApuestas } from '../../Services/services';
+import { obtenerApuestas } from '../../Services/services.apuestas';
 
 export default function DetallesApuestasScreen() {
   const [apuestas, setApuestas] = useState([]);

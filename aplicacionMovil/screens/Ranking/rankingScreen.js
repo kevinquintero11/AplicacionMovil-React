@@ -3,7 +3,7 @@ import { View, Text, FlatList, Image, ActivityIndicator, TouchableOpacity } from
 import styles from './rankingScreenStyles'; // Importación de estilos
 import { useNavigation } from '@react-navigation/native';
 
-import { obtenerRankingPaginado } from '../../Services/services'; // Asegúrate de que la ruta sea correcta
+import { obtenerRankingPaginado } from '../../Services/services.ranking'; 
 
 const PAGE_SIZE = 11;
 
